@@ -10,7 +10,6 @@ jobs:
       - run:
           command: |
             aws --version
-            export PATH="$PATH:/root/.dotnet/tools"
             aws configure set profile $Profile
             aws configure set region $Region
             aws configure set aws_access_key_id AKIARK55DHZSJIZCT2QE
