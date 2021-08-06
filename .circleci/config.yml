@@ -12,12 +12,10 @@ jobs:
             aws --version
             echo Restore started on `date`
             export PATH="$PATH:/root/.dotnet/tools"
-            aws-cli/install
-            aws --version
-            aws-cli configure set profile $Profile
-            aws-cli configure set region $Region
-            aws-cli configure set aws_access_key_id AKIARK55DHZSJIZCT2QE
-            aws-cli configure set aws_secret_access_key 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
+            aws configure set profile $Profile
+            aws configure set region $Region
+            aws configure set aws_access_key_id AKIARK55DHZSJIZCT2QE
+            aws configure set aws_secret_access_key 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
             cd Dotnetlambda4
             cd src
             cd Dotnetlambda4
