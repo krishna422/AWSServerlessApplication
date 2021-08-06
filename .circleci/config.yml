@@ -3,8 +3,6 @@ orbs:
   aws-cli: circleci/aws-cli@2.0
 jobs:
   aws-cli-example:
-    docker:
-      - image: microsoft/dotnet:latest
     executor: aws-cli/default
     steps:
       - checkout
