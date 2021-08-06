@@ -9,6 +9,8 @@ jobs:
       - aws-cli/setup:
           profile-name: example
       - run: echo "Run your code here"
+      - run:
+          command: aws --version
 workflows:
   aws-cli:
     jobs:
