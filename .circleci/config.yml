@@ -1,9 +1,8 @@
-version: 2
+version: 2.1
 jobs:
   build:
     docker:
       - image: microsoft/dotnet:latest
-
     steps:
       - checkout
       - run:
@@ -11,10 +10,10 @@ jobs:
           command: |
             echo Restore started on `date`
             export PATH="$PATH:/root/.dotnet/tools"
-            aws configure set profile $Profile
-            aws configure set region $Region
-            aws configure set aws_access_key_id AKIARK55DHZSJIZCT2QE
-            aws configure set aws_secret_access_key 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
+            aws-cli configure set profile $Profile
+            aws-cli configure set region $Region
+            aws-cli configure set aws_access_key_id AKIARK55DHZSJIZCT2QE
+            aws-cli configure set aws_secret_access_key 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
             cd Dotnetlambda4
             cd src
             cd Dotnetlambda4
