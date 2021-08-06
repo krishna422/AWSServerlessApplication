@@ -1,8 +1,10 @@
 version: 2.1
+orbs:
+      aws-cli: circleci/aws-cli@2.0.3
 jobs:
   build:
     docker:
-      - image: microsoft/dotnet:latest
+      - image: microsoft/dotnet:latest    
     steps:
       - checkout
       - run:
