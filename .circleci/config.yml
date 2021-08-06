@@ -8,7 +8,26 @@ jobs:
       - checkout
       - aws-cli/setup
       - run:
-          command: aws --version
+          command: |
+            aws --version
+            echo Restore started on `date`
+            export PATH="$PATH:/root/.dotnet/tools"
+            aws-cli/install
+            aws --version
+            aws-cli configure set profile $Profile
+            aws-cli configure set region $Region
+            aws-cli configure set aws_access_key_id AKIARK55DHZSJIZCT2QE
+            aws-cli configure set aws_secret_access_key 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
+            cd Dotnetlambda4
+            cd src
+            cd Dotnetlambda4
+            dotnet clean 
+            dotnet restore
+            echo Build started on `date`
+            dotnet new -i Amazon.Lambda.Templates::*
+            dotnet tool install -g Amazon.Lambda.Tools
+            dotnet tool update -g Amazon.Lambda.Tools
+            dotnet lambda deploy-function "Dotnetlambda4" --function-role "arn:aws:iam::yourawsaccount:role/youriamroleforlambda" --region "us-east-1"
 workflows:
   aws-cli:
     jobs:
