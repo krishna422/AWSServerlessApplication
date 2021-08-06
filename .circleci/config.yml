@@ -13,7 +13,12 @@ jobs:
             aws configure set profile testprofile
             aws configure set region us-east-2
             aws configure set aws_access_key_id AKIARK55DHZSJIZCT2QE
-            aws configure set aws_secret_access_key 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            
+            aws configure set aws_secret_access_key w1K2b5xNdUyORlnPmo77Q53Eska/AWMlCbTbMfFU
+            cd Dotnetlambda4
+            cd src
+            cd Dotnetlambda4
+            dotnet clean 
+            dotnet restore
 workflows:
   aws-cli:
     jobs:
