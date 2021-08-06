@@ -3,6 +3,8 @@ orbs:
   aws-cli: circleci/aws-cli@2.0
 jobs:
   aws-cli-example:
+    docker:
+      - image: microsoft/dotnet:latest
     executor: aws-cli/default
     steps:
       - checkout
@@ -10,8 +12,8 @@ jobs:
       - run:
           command: |
             aws --version
-            aws configure set profile $Profile
-            aws configure set region $Region
+            aws configure set profile testprofile
+            aws configure set region us-east-2
             aws configure set aws_access_key_id AKIARK55DHZSJIZCT2QE
             aws configure set aws_secret_access_key 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            
 workflows:
