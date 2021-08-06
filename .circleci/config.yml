@@ -6,6 +6,7 @@ jobs:
     executor: aws-cli/default
     steps:
       - checkout
+      - aws-cli/setup
       - run:
           command: aws --version
 workflows:
