@@ -1,7 +1,7 @@
 version: '2.1'
 orbs:
   aws-cli: circleci/aws-cli@2.0
-  windows: circleci/windows@2.2.0
+  dotnet: aetos382/dotnet@0.1.2
 jobs:
   aws-cli-example:
     executor: aws-cli/default
@@ -16,8 +16,8 @@ jobs:
             aws configure set aws_access_key_id AKIARK55DHZSJIZCT2QE
             aws configure set aws_secret_access_key w1K2b5xNdUyORlnPmo77Q53Eska/AWMlCbTbMfFU
             pwd && ls
-            dotnet.exe clean 
-            dotnet.exe restore
+            dotnet clean
+            dotnet restore
 workflows:
   aws-cli:
     jobs:
