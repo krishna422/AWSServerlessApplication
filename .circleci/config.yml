@@ -31,11 +31,12 @@ jobs:
           command: dotnet new -i Amazon.Lambda.Templates::*
       - run:
           name: Install Lambda Tools
-          command: dotnet tool install -g Amazon.Lambda.Tools     
+          command: dotnet tool install -g Amazon.Lambda.Tools
       - run:
           name: Publish
           command: |
             cd AWSServerlessApplication
+            dotnet tool update -g Amazon.Lambda.Tools
             dotnet lambda deploy-function pwd --function-role "arn:aws:iam::092201500260:role/ServerlessApplication-AspNetCoreFunctionRole-1HYM2CIY8PXLK" --region "us-east-2"
 workflows:
   Socotra-Configuration-Deployment:
