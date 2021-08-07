@@ -1,9 +1,17 @@
 version: '2.1'
 jobs:
-  aws-cli-example:
+  dotnet-docker:
+    docker:
+      - image: mcr.microsoft.com/dotnet/sdk:5.0
+    steps:
+      - checkout
+      - run:
+          command: |
+            dotnet clean
+            dotnet restore
+  aws-cli-example:    
     docker:
       - image: amazon/aws-cli:latest      
-      - image: mcr.microsoft.com/dotnet/sdk:5.0
     steps:
       - checkout
       - run:
@@ -14,9 +22,9 @@ jobs:
             aws configure set aws_access_key_id AKIARK55DHZSJIZCT2QE
             aws configure set aws_secret_access_key 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
             pwd && ls
-            dotnet clean
-            dotnet restore
+            
 workflows:
   aws-cli:
     jobs:
-      - aws-cli-example
+      - dotnet-docker
+      - aws-cli-example          
