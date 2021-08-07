@@ -23,8 +23,6 @@ jobs:
             aws configure set aws_secret_access_key w1K2b5xNdUyORlnPmo77Q53Eska/AWMlCbTbMfFU
             pwd && ls
             echo "In aws"
-            dotnet clean
-            dotnet restore
 workflows:
   Socotra-Configuration-Deployment:
     jobs:
