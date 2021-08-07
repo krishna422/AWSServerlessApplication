@@ -15,16 +15,26 @@ jobs:
             pwd && ls
             echo "In aws"
   dotnet-docker:
+    working_directory: ~/project/AWSServerlessApplication/AWSServerlessApplication
     docker:
       - image: mcr.microsoft.com/dotnet/sdk:5.0
     steps:
       - checkout
       - run:
-          command: |
-            export PATH="$PATH:/root/.dotnet/tools"
-            dotnet new -i Amazon.Lambda.Templates::*
-            dotnet tool install -g Amazon.Lambda.Tools
-            dotnet lambda deploy-function ".\AWSServerlessApplication\AWSServerlessApplication\.\bin\Release\netcoreapp3.1\publish" --function-role "arn:aws:iam::092201500260:role/ServerlessApplication-AspNetCoreFunctionRole-1HYM2CIY8PXLK" --region "us-east-2"
+          name: Check PWD
+          command: pwd && ls
+      - run:
+          name: Set PATH for dotnet tools
+          command: export PATH="$PATH:/root/.dotnet/tools"
+      - run:
+          name: Install Amazon Lambda Templates
+          command: dotnet new -i Amazon.Lambda.Templates::*
+      - run:
+          name: Install Lambda Tools
+          command: dotnet tool install -g Amazon.Lambda.Tools     
+      - run:
+          name: Publish
+          command: dotnet lambda deploy-function ".\AWSServerlessApplication\AWSServerlessApplication\.\bin\Release\netcoreapp3.1\publish" --function-role "arn:aws:iam::092201500260:role/ServerlessApplication-AspNetCoreFunctionRole-1HYM2CIY8PXLK" --region "us-east-2"
 workflows:
   Socotra-Configuration-Deployment:
     jobs:
