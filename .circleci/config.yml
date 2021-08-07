@@ -15,7 +15,7 @@ jobs:
             pwd && ls
             echo "In aws"
   dotnet-docker:
-    working_directory: ~/project/AWSServerlessApplication/AWSServerlessApplication
+    working_directory: ~/project/AWSServerlessApplication/AWSServerlessApplication/AWSServerlessApplication
     docker:
       - image: mcr.microsoft.com/dotnet/sdk:5.0
     steps:
@@ -34,7 +34,7 @@ jobs:
           command: dotnet tool install -g Amazon.Lambda.Tools     
       - run:
           name: Publish
-          command: dotnet lambda deploy-function ".\AWSServerlessApplication\AWSServerlessApplication\.\bin\Release\netcoreapp3.1\publish" --function-role "arn:aws:iam::092201500260:role/ServerlessApplication-AspNetCoreFunctionRole-1HYM2CIY8PXLK" --region "us-east-2"
+          command: dotnet lambda deploy-function pwd --function-role "arn:aws:iam::092201500260:role/ServerlessApplication-AspNetCoreFunctionRole-1HYM2CIY8PXLK" --region "us-east-2"
 workflows:
   Socotra-Configuration-Deployment:
     jobs:
