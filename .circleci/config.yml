@@ -1,26 +1,15 @@
-version: '2.1'
+version: 2.1
 orbs:
-  aws-cli: circleci/aws-cli@2.0.3
+  win: circleci/windows@2.2.0
 jobs:
-  dotnet-docker:
-    docker:
-      - image: mcr.microsoft.com/dotnet/sdk:5.0
-      - image: amazon/aws-cli:latest
+  build:
+    executor:
+      name: win/default
+      shell: powershell.exe
     steps:
       - checkout
       - run:
-          command: |
-            aws-cli --version
-            aws-cli configure set profile testprofile
-            aws-cli configure set region us-east-2
-            aws-cli configure set aws_access_key_id AKIARK55DHZSJIZCT2QE
-            aws-cli configure set aws_secret_access_key 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
-            pwd && ls
-            echo "In aws"
-            dotnet --version
-            dotnet clean
-            dotnet restore
-workflows:
-  AWS Config Check:
-    jobs:
-      - dotnet-docker
+          name: "Install AWS CLI"
+          shell: powershell.exe
+          command:
+            docker run --rm -it amazon/aws-cli --version
