@@ -3,7 +3,7 @@ jobs:
   aws-cli-example:
     docker:
       - image: amazon/aws-cli:latest      
-      - image: microsoft/dotnet:latest
+      - image: mcr.microsoft.com/dotnet/sdk:5.0
     steps:
       - checkout
       - run:
