@@ -12,4 +12,4 @@ jobs:
           name: "Install AWS CLI"
           shell: powershell.exe
           command:
-            docker run --rm -it amazon/aws-cli --version
+            docker run amazon/aws-cli --version
