@@ -1,17 +1,9 @@
 version: '2.1'
-jobs:
-  dotnet-docker:
+jobs:            
+  aws-cli-example:
     docker:
+      - image: amazon/aws-cli:latest
       - image: mcr.microsoft.com/dotnet/sdk:5.0
-    steps:
-      - checkout
-      - run:
-          command: |
-            dotnet clean
-            dotnet restore
-  aws-cli-example:    
-    docker:
-      - image: amazon/aws-cli:latest      
     steps:
       - checkout
       - run:
@@ -23,10 +15,9 @@ jobs:
             aws configure set aws_secret_access_key w1K2b5xNdUyORlnPmo77Q53Eska/AWMlCbTbMfFU
             pwd && ls
             echo "In aws"
+            dotnet clean
+            dotnet restore
 workflows:
   Socotra-Configuration-Deployment:
     jobs:
-      - dotnet-docker
-      - aws-cli-example:
-          requires:
-            - dotnet-docker
+      - aws-cli-example      
