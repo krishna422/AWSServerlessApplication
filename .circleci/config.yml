@@ -15,3 +15,5 @@ jobs:
           command: |
             echo "hello world"
             dotnet --version
+            dotnet clean 
+            dotnet restore
