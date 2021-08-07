@@ -28,7 +28,7 @@ jobs:
           command: export PATH="$PATH:/root/.dotnet/tools"
       - run:
           name: Install Amazon Lambda Templates
-          command: dotnet new install -g Amazon.Lambda.Templates::*
+          command: dotnet new -i Amazon.Lambda.Templates::*
       - run:
           name: Install Lambda Tools
           command: dotnet tool install -g Amazon.Lambda.Tools
