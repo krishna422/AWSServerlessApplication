@@ -23,6 +23,7 @@ jobs:
           command: |
             pwd && ls
             dotnet publish --output ".\AWSServerlessApplication\AWSServerlessApplication\.\bin\Release\netcoreapp3.1\publish" --configuration "Release" --framework "netcoreapp3.1" /p:GenerateRuntimeConfigurationFiles=true --runtime linux-x64 --self-contained false
+            pwd && ls
 workflows:
   Socotra-Configuration-Deployment:
     jobs:
