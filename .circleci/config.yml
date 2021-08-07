@@ -34,7 +34,9 @@ jobs:
           command: dotnet tool install -g Amazon.Lambda.Tools     
       - run:
           name: Publish
-          command: dotnet lambda deploy-function pwd --function-role "arn:aws:iam::092201500260:role/ServerlessApplication-AspNetCoreFunctionRole-1HYM2CIY8PXLK" --region "us-east-2"
+          command: |
+            cd AWSServerlessApplication
+            dotnet lambda deploy-function pwd --function-role "arn:aws:iam::092201500260:role/ServerlessApplication-AspNetCoreFunctionRole-1HYM2CIY8PXLK" --region "us-east-2"
 workflows:
   Socotra-Configuration-Deployment:
     jobs:
