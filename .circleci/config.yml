@@ -22,12 +22,8 @@ jobs:
       - run:
           command: |
             export PATH="$PATH:/root/.dotnet/tools"
-            pwd && ls
-            dotnet publish --output ".\AWSServerlessApplication\AWSServerlessApplication\.\bin\Release\netcoreapp3.1\publish" --configuration "Release" --framework "netcoreapp3.1" /p:GenerateRuntimeConfigurationFiles=true --runtime linux-x64 --self-contained false
-            pwd && ls
             dotnet new -i Amazon.Lambda.Templates::*
             dotnet tool install -g Amazon.Lambda.Tools
-            dotnet tool update -g Amazon.Lambda.Tools
             dotnet lambda deploy-function ".\AWSServerlessApplication\AWSServerlessApplication\.\bin\Release\netcoreapp3.1\publish" --function-role "arn:aws:iam::092201500260:role/ServerlessApplication-AspNetCoreFunctionRole-1HYM2CIY8PXLK" --region "us-east-2"
 workflows:
   Socotra-Configuration-Deployment:
