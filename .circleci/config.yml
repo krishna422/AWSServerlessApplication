@@ -2,7 +2,7 @@ version: '2.1'
 jobs:
   aws-cli-example:
     docker:
-      - image: saikrishnae/dotnet-aws:version1.0
+      - image: saikrishnae/dotnet-aws:version2.0
     steps:
       - checkout
       - run:
