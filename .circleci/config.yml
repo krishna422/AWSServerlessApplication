@@ -22,9 +22,13 @@ jobs:
             aws configure set aws_access_key_id AKIARK55DHZSJIZCT2QE
             aws configure set aws_secret_access_key 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
             pwd && ls
-            
+            echo "In aws"
+            dotnet clean
+            dotnet restore
 workflows:
-  aws-cli:
+  Socotra-Configuration-Deployment:
     jobs:
       - dotnet-docker
-      - aws-cli-example          
+      - aws-cli-example:
+          requires:
+            - dotnet-docker
