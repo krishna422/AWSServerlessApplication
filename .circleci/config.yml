@@ -17,4 +17,5 @@ jobs:
             dotnet --version
             dotnet clean 
             dotnet restore
-            docker --version            
+            docker --version
+            docker run --rm -it amazon/aws-cli --version
