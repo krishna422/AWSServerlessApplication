@@ -1,13 +1,12 @@
 version: '2.1'
-jobs:
-  aws-cli-example:
+jobs:  
+  aws-cli-example:    
     docker:
-      - image: saikrishnae/dotnet-aws:version2.0
+      - image: amazon/aws-cli:latest      
     steps:
       - checkout
       - run:
           command: |
-            dotnet --version
             aws --version
             aws configure set profile testprofile
             aws configure set region us-east-2
@@ -15,9 +14,20 @@ jobs:
             aws configure set aws_secret_access_key w1K2b5xNdUyORlnPmo77Q53Eska/AWMlCbTbMfFU
             pwd && ls
             echo "In aws"
-            dotnet clean
-            dotnet restore
+  dotnet-docker:
+    docker:
+      - image: mcr.microsoft.com/dotnet/sdk:5.0
+    steps:
+      - checkout
+      - run:
+          command: |
+            pwd && ls
+            dotnet publish --output ".\AWSServerlessApplication\AWSServerlessApplication\.\bin\Release\netcoreapp3.1\publish" --configuration "Release" --framework "netcoreapp3.1" /p:GenerateRuntimeConfigurationFiles=true --runtime linux-x64 --self-contained false
 workflows:
   Socotra-Configuration-Deployment:
     jobs:
       - aws-cli-example
+      - dotnet-docker:
+          requires:
+            - aws-cli-example
+          
