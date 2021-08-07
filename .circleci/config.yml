@@ -15,14 +15,14 @@ jobs:
             pwd && ls
             echo "In aws"
   dotnet-docker:
-    working_directory: ~/project/AWSServerlessApplication/AWSServerlessApplication/AWSServerlessApplication
+    working_directory: ~/project/AWSServerlessApplication/AWSServerlessApplication
     docker:
       - image: mcr.microsoft.com/dotnet/sdk:5.0
     steps:
       - checkout
       - run:
           name: Check PWD
-          command: pwd && ls
+          command: cd AWSServerlessApplication && pwd && ls
       - run:
           name: Set PATH for dotnet tools
           command: export PATH="$PATH:/root/.dotnet/tools"
