@@ -21,6 +21,7 @@ jobs:
       - checkout
       - run:
           command: |
+            export PATH="$PATH:/root/.dotnet/tools"
             pwd && ls
             dotnet publish --output ".\AWSServerlessApplication\AWSServerlessApplication\.\bin\Release\netcoreapp3.1\publish" --configuration "Release" --framework "netcoreapp3.1" /p:GenerateRuntimeConfigurationFiles=true --runtime linux-x64 --self-contained false
             pwd && ls
