@@ -16,8 +16,8 @@ jobs:
             aws configure set aws_access_key_id AKIARK55DHZSJIZCT2QE
             aws configure set aws_secret_access_key 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
             pwd && ls
-            dotnet clean 
-            dotnet restore
+            dotnet.exe clean 
+            dotnet.exe restore
 workflows:
   aws-cli:
     jobs:
