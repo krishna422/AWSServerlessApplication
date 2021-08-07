@@ -4,7 +4,8 @@ orbs:
 jobs:
   dotnet-docker:
     docker:
-      - image: mcr.microsoft.com/dotnet/sdk:5.0    
+      - image: mcr.microsoft.com/dotnet/sdk:5.0
+      - image: amazon/aws-cli:latest
     steps:
       - checkout
       - run:
@@ -18,7 +19,7 @@ jobs:
             echo "In aws"
             dotnet --version
             dotnet clean
-            dotnet restore            
+            dotnet restore
 workflows:
   AWS Config Check:
     jobs:
