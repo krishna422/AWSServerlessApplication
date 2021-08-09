@@ -41,7 +41,7 @@ jobs:
           name: Publish
           command: |
             cd AWSServerlessApplication
-            ~/.dotnet/tools/dotnet-lambda deploy-serverless --msbuild-parameters "--no-restore --self-contained true" pwd --disable-interactive true
+            ~/.dotnet/tools/dotnet-lambda deploy-serverless --msbuild-parameters "--no-restore --self-contained true" pwd --disable-interactive true --region "us-east-2"
 workflows:
   Socotra-Configuration-Deployment:
     jobs:
