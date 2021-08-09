@@ -38,9 +38,6 @@ jobs:
           name: Update
           command: dotnet tool update -g Amazon.Lambda.Tools
       - run:
-          name: Install Nuget
-          command: sudo apt install nuget
-      - run:
           name: Publish
           command: |
             cd AWSServerlessApplication
