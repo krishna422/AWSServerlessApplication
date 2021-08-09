@@ -21,8 +21,10 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Check PWD
-          command: cd AWSServerlessApplication && pwd && ls
+          name: dotnet clean
+          command: |
+            dotnet clean
+            dotnet restore -nowarn:msb3202,nu1503 -p:RestoreUseSkipNonexistentTargets=false -v:diag
       - run:
           name: Install dotnet tools
           command: dotnet tool install --global dotnet-ef      
@@ -44,8 +46,7 @@ jobs:
           name: Publish
           command: |
             cd AWSServerlessApplication
-            ~/.dotnet/tools/dotnet-lambda deploy-function pwd --function-runtime dotnetcore3.1 --function-role "arn:aws:iam::092201500260:role/ServerlessApplication-AspNetCoreFunctionRole-1HYM2CIY8PXLK" --config-file aws-lambda-tools-defaults.json --region "us-east-2" --disable-interactive true
-            echo dotnetcore3.1
+            ~/.dotnet/tools/dotnet-lambda deploy-serverless pwd --disable-interactive true --region us-east-2 --msbuild-parameters "--no-restore"
 workflows:
   Socotra-Configuration-Deployment:
     jobs:
