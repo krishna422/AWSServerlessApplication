@@ -44,7 +44,7 @@ jobs:
           name: Publish
           command: |
             cd AWSServerlessApplication
-            ~/.dotnet/tools/dotnet-lambda deploy-function pwd --function-runtime dotnetcore3.1 --function-role "arn:aws:iam::092201500260:role/ServerlessApplication-AspNetCoreFunctionRole-1HYM2CIY8PXLK" --config-file aws-lambda-tools-defaults.json --region "us-east-2" --disable-interactive true
+            ~/.dotnet/tools/dotnet-lambda deploy-function pwd --function-runtime dotnetcore3.1 --function-role "arn:aws:iam::092201500260:role/ServerlessApplication-AspNetCoreFunctionRole-1HYM2CIY8PXLK" --config-file aws-lambda-tools-defaults.json --region "us-east-2" --disable-interactive true --no-restore
 workflows:
   Socotra-Configuration-Deployment:
     jobs:
