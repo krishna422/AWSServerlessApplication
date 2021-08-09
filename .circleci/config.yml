@@ -41,11 +41,16 @@ jobs:
           name: Update
           command: dotnet tool update -g Amazon.Lambda.Tools
       - run:
+          name: dotnet clean
+          command: dotnet clean
+      - run:
+          name: dotnet restore
+          command: dotnet restore
+      - run:
           name: Publish
           command: |
             cd AWSServerlessApplication
             ~/.dotnet/tools/dotnet-lambda deploy-function pwd --function-runtime dotnetcore3.1 --function-role "arn:aws:iam::092201500260:role/ServerlessApplication-AspNetCoreFunctionRole-1HYM2CIY8PXLK" --config-file aws-lambda-tools-defaults.json --region "us-east-2" --disable-interactive true
-            echo dotnetcore3.1
 workflows:
   Socotra-Configuration-Deployment:
     jobs:
