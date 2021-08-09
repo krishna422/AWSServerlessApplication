@@ -21,10 +21,8 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Install dotnet tools
-          command: |
-            dotnet clean
-            dotnet restore --v:diag
+          name: dotnet clean
+          command: dotnet clean
       - run:
           name: Install dotnet tools
           command: dotnet tool install --global dotnet-ef      
