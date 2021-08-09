@@ -40,6 +40,7 @@ jobs:
       - run:
           name: Publish
           command: |
+            Nuget restore
             cd AWSServerlessApplication
             ~/.dotnet/tools/dotnet-lambda deploy-serverless --no-fail-on-empty-changeset --msbuild-parameters "--no-restore" pwd --disable-interactive true --region "us-east-2"
 workflows:
