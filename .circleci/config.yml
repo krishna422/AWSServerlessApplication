@@ -22,10 +22,12 @@ jobs:
       - checkout
       - run:
           name: Dotnet Restore
-          command: dotnet restore
+          command: |
+            dotnet restore
+            cd AWSServerlessApplication
       - run:
           name: Check PWD
-          command: cd AWSServerlessApplication && pwd && ls
+          command: pwd && ls
       - run:
           name: Install dotnet tools
           command: dotnet tool install --global dotnet-ef      
