@@ -24,9 +24,6 @@ jobs:
           name: Check PWD
           command: cd AWSServerlessApplication && pwd && ls
       - run:
-          name: Set PATH for dotnet tools
-          command: export PATH="$PATH:/root/.dotnet/tools"
-      - run:
           name: Install Amazon Lambda Templates
           command: dotnet new -i Amazon.Lambda.Templates::*
       - run:
