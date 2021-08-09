@@ -32,9 +32,8 @@ jobs:
       - run:
           name: Install Lambda Tools
           command: |
-            dotnet tool install --tool-PATH="$PATH:/root/.dotnet/tools" Amazon.Lambda.Tools
             dotnet new tool-manifest
-            dotnet tool install --global Amazon.Lambda.Tools --version 5.1.4
+            dotnet tool install --global Amazon.Lambda.Tools
       - run:
           name: Set PATH for dotnet tools
           command: export PATH="$PATH:/root/.dotnet/tools"
