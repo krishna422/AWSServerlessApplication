@@ -24,7 +24,7 @@ jobs:
           name: Install dotnet tools
           command: |
             dotnet clean
-            dotnet restore
+            dotnet restore --v
       - run:
           name: Install dotnet tools
           command: dotnet tool install --global dotnet-ef      
