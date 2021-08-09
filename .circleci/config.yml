@@ -21,14 +21,6 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Dotnet Restore
-          command: |
-            dotnet restore
-            cd AWSServerlessApplication
-      - run:
-          name: Check PWD
-          command: pwd && ls
-      - run:
           name: Install dotnet tools
           command: dotnet tool install --global dotnet-ef      
       - run:
@@ -46,7 +38,7 @@ jobs:
           name: Update
           command: dotnet tool update -g Amazon.Lambda.Tools
       - run:
-          name: Publish to AWS
+          name: Publish
           command: |
             cd AWSServerlessApplication
             ~/.dotnet/tools/dotnet-lambda deploy-function --msbuild-parameters "--no-restore" pwd --function-runtime dotnetcore3.1 --function-role "arn:aws:iam::092201500260:role/ServerlessApplication-AspNetCoreFunctionRole-1HYM2CIY8PXLK" --config-file aws-lambda-tools-defaults.json --region "us-east-2" --disable-interactive true
