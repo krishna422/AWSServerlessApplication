@@ -21,6 +21,9 @@ jobs:
     steps:
       - checkout
       - run:
+          name: Dotnet Restore
+          command: dotnet restore
+      - run:
           name: Check PWD
           command: cd AWSServerlessApplication && pwd && ls
       - run:
