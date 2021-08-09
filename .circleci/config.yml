@@ -24,23 +24,25 @@ jobs:
           name: Check PWD
           command: cd AWSServerlessApplication && pwd && ls
       - run:
-          name: Set PATH for dotnet tools
-          command: export PATH="$PATH:/root/.dotnet/tools"
+          name: Install dotnet tools
+          command: dotnet tool install --global dotnet-ef      
       - run:
           name: Install Amazon Lambda Templates
           command: dotnet new -i Amazon.Lambda.Templates::*
       - run:
           name: Install Lambda Tools
-          command: dotnet tool install -g Amazon.Lambda.Tools
+          command: |
+            dotnet new tool-manifest
+            dotnet tool install --global Amazon.Lambda.Tools
+      - run:
+          name: Set PATH for dotnet tools
+          command: export PATH="$PATH:/root/.dotnet/tools"
       - run:
           name: Update
           command: dotnet tool update -g Amazon.Lambda.Tools
       - run:
           name: Publish
-          command: |
-            cd AWSServerlessApplication
-            pwd && ls
-            dotnet lambda deploy-function pwd --function-role "arn:aws:iam::092201500260:role/ServerlessApplication-AspNetCoreFunctionRole-1HYM2CIY8PXLK" --region "us-east-2"
+          command: dotnet lambda deploy-function pwd --function-role "arn:aws:iam::092201500260:role/ServerlessApplication-AspNetCoreFunctionRole-1HYM2CIY8PXLK" --region "us-east-2"
 workflows:
   Socotra-Configuration-Deployment:
     jobs:
