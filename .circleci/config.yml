@@ -22,6 +22,11 @@ jobs:
       - checkout
       - run:
           name: Install dotnet tools
+          command: |
+            dotnet clean
+            dotnet restore
+      - run:
+          name: Install dotnet tools
           command: dotnet tool install --global dotnet-ef      
       - run:
           name: Install Amazon Lambda Templates
