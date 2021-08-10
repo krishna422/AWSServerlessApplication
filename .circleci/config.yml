@@ -46,6 +46,7 @@ jobs:
           name: Install Zip
           command: |            
             apt-get update
+            apt-get -y install zip
             apt-get -y install unzip
       - run:
           name: Publish
