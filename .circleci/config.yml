@@ -43,6 +43,9 @@ jobs:
           name: Update
           command: dotnet tool update -g Amazon.Lambda.Tools
       - run:
+          name: Install Zip
+          command: apt-get -y install zip
+      - run:
           name: Publish
           command: |
             cd AWSServerlessApplication
