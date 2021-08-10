@@ -6,9 +6,9 @@ jobs:
     steps:
       - checkout
       - run:
-          command: aws --version
-      - run:
           command: dotnet --version
+      - run:
+          command: aws --version
 workflows:
   Socotra-Configuration-Deployment:
     jobs:
