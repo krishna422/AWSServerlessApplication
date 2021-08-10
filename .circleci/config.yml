@@ -1,13 +1,11 @@
 version: 2.1
-jobs:     
-  dotnet-docker:
-    working_directory: ~/project/AWSServerlessApplication/AWSServerlessApplication
+jobs:  
+  aws-cli-example:    
     docker:
-      - image: saikrishnae/dotnet-aws:version2.0
+      - image: amazon/aws-cli:latest      
     steps:
       - checkout
       - run:
-          name: AWS Configuration
           command: |
             aws --version
             aws configure set profile testprofile
@@ -16,6 +14,12 @@ jobs:
             aws configure set aws_secret_access_key w1K2b5xNdUyORlnPmo77Q53Eska/AWMlCbTbMfFU
             pwd && ls
             echo "In aws"
+  dotnet-docker:
+    working_directory: ~/project/AWSServerlessApplication/AWSServerlessApplication
+    docker:
+      - image: mcr.microsoft.com/dotnet/sdk:5.0
+    steps:
+      - checkout
       - run:
           name: dotnet clean
           command: |
@@ -48,8 +52,12 @@ jobs:
           name: Publish
           command: |
             cd AWSServerlessApplication
-            ~/.dotnet/tools/dotnet-lambda deploy-serverless pwd --disable-interactive true --region us-east-2 --msbuild-parameters "--no-restore"
+            ~/.dotnet/tools/dotnet-lambda deploy-serverless pwd --disable-interactive true --region us-east-2 --profile default --msbuild-parameters "--no-restore"
 workflows:
   Socotra-Configuration-Deployment:
     jobs:
-      - dotnet-docker
+      - aws-cli-example
+      - dotnet-docker:
+          requires:
+            - aws-cli-example
+          
