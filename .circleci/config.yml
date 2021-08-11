@@ -1,14 +1,14 @@
 version: 2.1
 orbs:
   aws-cli: circleci/aws-cli@2.0.3
-jobs:
+jobs:  
   aws-cli-example:
     docker:
       - image: amazon/aws-cli:latest      
     steps:
       - checkout
       - run:
-          command: | 
+          command: |
             aws --version
             aws configure set profile testprofile
             aws configure set region us-east-2
@@ -22,8 +22,14 @@ jobs:
       - image: mcr.microsoft.com/dotnet/sdk:5.0
     steps:
       - checkout
+      - run:
+          name: Install Zip
+          command: |            
+            apt-get update
+            apt-get -y install zip
+            apt-get -y install unzip
       - aws-cli/setup:
-          profile-name: testprofile
+          profile-name: example
       - run: echo "Run your code here"
       - run:
           name: dotnet clean
@@ -46,13 +52,7 @@ jobs:
           command: export PATH="$PATH:/root/.dotnet/tools"
       - run:
           name: Update
-          command: dotnet tool update -g Amazon.Lambda.Tools
-      - run:
-          name: Install Zip
-          command: |            
-            apt-get update
-            apt-get -y install zip
-            apt-get -y install unzip
+          command: dotnet tool update -g Amazon.Lambda.Tools      
       - run:
           name: Publish
           command: |
