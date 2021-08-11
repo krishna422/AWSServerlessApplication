@@ -30,7 +30,7 @@ jobs:
             apt-get -y install unzip
       - aws-cli/setup:
           profile-name: example
-      - run: aws-cli --version
+      - run: aws --version
       - run:
           name: dotnet clean
           command: |
