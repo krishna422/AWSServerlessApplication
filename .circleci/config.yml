@@ -9,30 +9,27 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Install Zip and Unzip
-          command: |            
+          name: Install Supporting Tools
+          command: |
             apt-get update
             apt-get -y install zip
             apt-get -y install unzip
       - aws-cli/setup:
           profile-name: default
       - run:
-          name: Set AWS Region
-          command: aws configure set region ${DEPLOYREGION}
+          name: Set AWS Credentials
+          command: |
+            aws configure set region ${DEPLOYREGION}      
+            aws configure set aws_access_key_id ${ACCESSKEYID}     
+            aws configure set aws_secret_access_key ${SECRETKEY}
       - run:
-          name: Set AWS Access Key
-          command: aws configure set aws_access_key_id ${ACCESSKEYID}
-      - run:
-          name: Set AWS Secret Key
-          command: aws configure set aws_secret_access_key ${SECRETKEY}
-      - run:
-          name: dotnet clean
+          name: Install Dependencies
           command: |
             dotnet clean
             dotnet restore -nowarn:msb3202,nu1503 -p:RestoreUseSkipNonexistentTargets=false
       - run:
           name: Install dotnet tools
-          command: dotnet tool install --global dotnet-ef      
+          command: dotnet tool install --global dotnet-ef
       - run:
           name: Install Amazon Lambda Templates
           command: dotnet new -i Amazon.Lambda.Templates::*
@@ -48,7 +45,7 @@ jobs:
           name: Update
           command: dotnet tool update -g Amazon.Lambda.Tools      
       - run:
-          name: Publish
+          name: Publish to AWS
           command: |
             cd AWSServerlessApplication
             ~/.dotnet/tools/dotnet-lambda deploy-serverless ServerlessApplication --disable-interactive true --region us-east-2 --profile default --msbuild-parameters "--no-restore"
