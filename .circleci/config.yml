@@ -3,6 +3,7 @@ orbs:
   aws-cli: circleci/aws-cli@2.0.3
 jobs:
   build-and-deploy:
+    executor: aws-cli/default
     docker:
       - image: mcr.microsoft.com/dotnet/sdk:5.0
     working_directory: ~/project/AWSServerlessApplication/AWSServerlessApplication
