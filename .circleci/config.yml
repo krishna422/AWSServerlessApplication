@@ -1,10 +1,12 @@
 version: 2.1
+orbs:
+  wait-for: cobli/wait-for@0.0.2
 jobs:
-  dotnet-docker:
-    working_directory: ~/project/AWSServerlessApplication/AWSServerlessApplication
+  dotnet-docker:    
     docker:
       - image: amazon/aws-cli:latest
       - image: mcr.microsoft.com/dotnet/sdk:5.0
+    working_directory: ~/project/AWSServerlessApplication/AWSServerlessApplication
     steps:
       - checkout
       - run:
@@ -17,11 +19,6 @@ jobs:
             aws configure set aws_secret_access_key w1K2b5xNdUyORlnPmo77Q53Eska/AWMlCbTbMfFU
             pwd && ls
             echo "In aws"
-      - run:
-          name: install dockerize
-          command: |
-            wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && sudo tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
-            dockerize -wait http://localhost:80 -timeout 1m
       - run:
           name: dotnet clean
           command: |
