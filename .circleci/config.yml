@@ -8,9 +8,6 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Wait for containers
-          command: sleep 2m
-      - run:
           name: AWS CLI check
           command: aws --version           
       - run:
