@@ -1,30 +1,35 @@
 version: 2.1
-jobs:  
-  aws-cli-example:    
-    docker:
-      - image: amazon/aws-cli:latest      
-    steps:
-      - checkout
-      - run:
-          command: |
-            aws --version
-            aws configure set profile testprofile
-            aws configure set region us-east-2
-            aws configure set aws_access_key_id AKIARK55DHZSJIZCT2QE
-            aws configure set aws_secret_access_key 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
-            pwd && ls
-            echo "In aws"
-  dotnet-docker:
+orbs:
+  aws-cli: circleci/aws-cli@2.0.3
+jobs:
+  dotnet-deploy:
     working_directory: ~/project/AWSServerlessApplication/AWSServerlessApplication
     docker:
       - image: mcr.microsoft.com/dotnet/sdk:5.0
     steps:
       - checkout
       - run:
+          name: Install Zip and Unzip
+          command: |            
+            apt-get update
+            apt-get -y install zip
+            apt-get -y install unzip
+      - aws-cli/setup:
+          profile-name: default
+      - run:
+          name: Set AWS Region
+          command: aws configure set region ${DEPLOYREGION}
+      - run:
+          name: Set AWS Access Key
+          command: aws configure set aws_access_key_id ${ACCESSKEYID}
+      - run:
+          name: Set AWS Secret Key
+          command: aws configure set aws_secret_access_key ${SECRETKEY}
+      - run:
           name: dotnet clean
           command: |
             dotnet clean
-            dotnet restore -nowarn:msb3202,nu1503 -p:RestoreUseSkipNonexistentTargets=false -v:diag
+            dotnet restore -nowarn:msb3202,nu1503 -p:RestoreUseSkipNonexistentTargets=false
       - run:
           name: Install dotnet tools
           command: dotnet tool install --global dotnet-ef      
@@ -41,17 +46,14 @@ jobs:
           command: export PATH="$PATH:/root/.dotnet/tools"
       - run:
           name: Update
-          command: dotnet tool update -g Amazon.Lambda.Tools
+          command: dotnet tool update -g Amazon.Lambda.Tools      
       - run:
           name: Publish
           command: |
             cd AWSServerlessApplication
-            ~/.dotnet/tools/dotnet-lambda deploy-serverless pwd --disable-interactive true --region us-east-2 --msbuild-parameters "--no-restore"
+            ~/.dotnet/tools/dotnet-lambda deploy-serverless ServerlessApplication --disable-interactive true --region us-east-2 --profile default --msbuild-parameters "--no-restore"
 workflows:
   Socotra-Configuration-Deployment:
     jobs:
-      - aws-cli-example
-      - dotnet-docker:
-          requires:
-            - aws-cli-example
-          
+      - dotnet-deploy:
+          context: AWS-SERVERLESS
