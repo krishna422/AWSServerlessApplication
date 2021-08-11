@@ -1,8 +1,6 @@
 version: 2.1
-orbs:
-  wait-for: cobli/wait-for@0.0.2
 jobs:
-  dotnet-docker:    
+  build:
     docker:
       - image: amazon/aws-cli:latest
       - image: mcr.microsoft.com/dotnet/sdk:5.0
@@ -55,5 +53,4 @@ jobs:
 workflows:
   Socotra-Configuration-Deployment:
     jobs:      
-      - dotnet-docker
-          
+      - build
