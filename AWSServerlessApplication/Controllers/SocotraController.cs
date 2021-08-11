@@ -16,7 +16,7 @@ namespace AWSServerlessApplication.Controllers
         [Route("getvalues")]
         public string GetValues()
         {
-            var str = "{\"fieldValues\":{\"external_value_here\":[\"Hellofromawsfunctionapp\"]}}";
+            var str = "{\"fieldValues\":{\"external_value_here\":[\"New Values come here!!!\"]}}";
             return str;
         }
     }
