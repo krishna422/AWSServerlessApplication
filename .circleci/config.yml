@@ -1,42 +1,30 @@
 version: 2.1
 orbs:
   aws-cli: circleci/aws-cli@2.0.3
-jobs:  
-  aws-cli-example:
-    docker:
-      - image: amazon/aws-cli:latest      
-    steps:
-      - checkout
-      - run:
-          command: |
-            aws --version
-            aws configure set profile testprofile
-            aws configure set region us-east-2
-            aws configure set aws_access_key_id AKIARK55DHZSJIZCT2QE
-            aws configure set aws_secret_access_key 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
-            pwd && ls
-            echo "In aws"
-  dotnet-docker:
+jobs:
+  dotnet-deploy:
     working_directory: ~/project/AWSServerlessApplication/AWSServerlessApplication
     docker:
       - image: mcr.microsoft.com/dotnet/sdk:5.0
     steps:
       - checkout
       - run:
-          name: Install Zip
+          name: Install Zip and Unzip
           command: |            
             apt-get update
             apt-get -y install zip
             apt-get -y install unzip
       - aws-cli/setup:
-          profile-name: example
-      - run: |
-            aws configure set profile testprofile
-            aws configure set region us-east-2
-            aws configure set aws_access_key_id AKIARK55DHZSJIZCT2QE
-            aws configure set aws_secret_access_key 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
-            pwd && ls
-            echo "In aws"
+          profile-name: default
+      - run:
+          name: Set AWS Region
+          command: aws configure set region us-east-2
+      - run:
+          name: Set AWS Access Key
+          command: aws configure set aws_access_key_id AKIARK55DHZSJIZCT2QE
+      - run:
+          name: Set AWS Secret Key
+          command: aws configure set aws_secret_access_key w1K2b5xNdUyORlnPmo77Q53Eska/AWMlCbTbMfFU
       - run:
           name: dotnet clean
           command: |
@@ -67,8 +55,4 @@ jobs:
 workflows:
   Socotra-Configuration-Deployment:
     jobs:
-      - aws-cli-example
-      - dotnet-docker:
-          requires:
-            - aws-cli-example
-          
+      - dotnet-deploy
