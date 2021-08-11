@@ -18,13 +18,13 @@ jobs:
           profile-name: default
       - run:
           name: Set AWS Region
-          command: aws configure set region us-east-2
+          command: aws configure set region ${DEPLOYREGION}
       - run:
           name: Set AWS Access Key
-          command: aws configure set aws_access_key_id AKIARK55DHZSJIZCT2QE
+          command: aws configure set aws_access_key_id ${ACCESSKEYID}
       - run:
           name: Set AWS Secret Key
-          command: aws configure set aws_secret_access_key w1K2b5xNdUyORlnPmo77Q53Eska/AWMlCbTbMfFU
+          command: aws configure set aws_secret_access_key ${SECRETKEY}
       - run:
           name: dotnet clean
           command: |
@@ -55,4 +55,5 @@ jobs:
 workflows:
   Socotra-Configuration-Deployment:
     jobs:
-      - dotnet-deploy
+      - dotnet-deploy:
+          context: AWS-SERVERLESS
