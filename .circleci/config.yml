@@ -14,17 +14,12 @@ jobs:
             aws configure set aws_secret_access_key w1K2b5xNdUyORlnPmo77Q53Eska/AWMlCbTbMfFU
             pwd && ls
             echo "In aws"
-      - persist_to_workspace:
-          root: ./
-          paths: ./
   dotnet-docker:
     working_directory: ~/project/AWSServerlessApplication/AWSServerlessApplication
     docker:
       - image: mcr.microsoft.com/dotnet/sdk:5.0
     steps:
       - checkout
-      - attach_workspace:
-          at: ./
       - run:
           name: dotnet clean
           command: |
