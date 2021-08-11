@@ -1,21 +1,68 @@
 version: 2.1
-orbs:
-  aws-cli: circleci/aws-cli@2.0.3
-jobs:
-  build-and-deploy:
-    executor: aws-cli/default
+jobs:  
+  aws-cli-example:
     docker:
-      - image: mcr.microsoft.com/dotnet/sdk:5.0
-    working_directory: ~/project/AWSServerlessApplication/AWSServerlessApplication
+      - image: amazon/aws-cli:latest      
     steps:
       - checkout
       - run:
-          name: AWS CLI check
-          command: aws-cli --version           
+          command: |
+            aws --version
+            aws configure set profile testprofile
+            aws configure set region us-east-2
+            aws configure set aws_access_key_id AKIARK55DHZSJIZCT2QE
+            aws configure set aws_secret_access_key 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
+            pwd && ls
+            echo "In aws"
+      - persist_to_workspace:
+          root: ./
+          paths: ./
+  dotnet-docker:
+    working_directory: ~/project/AWSServerlessApplication/AWSServerlessApplication
+    docker:
+      - image: mcr.microsoft.com/dotnet/sdk:5.0
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ./
       - run:
-          name: dotnet CLI check
-          command: dotnet --version
+          name: dotnet clean
+          command: |
+            dotnet clean
+            dotnet restore -nowarn:msb3202,nu1503 -p:RestoreUseSkipNonexistentTargets=false -v:diag
+      - run:
+          name: Install dotnet tools
+          command: dotnet tool install --global dotnet-ef      
+      - run:
+          name: Install Amazon Lambda Templates
+          command: dotnet new -i Amazon.Lambda.Templates::*
+      - run:
+          name: Install Lambda Tools
+          command: |
+            dotnet new tool-manifest
+            dotnet tool install --global Amazon.Lambda.Tools
+      - run:
+          name: Set PATH for dotnet tools
+          command: export PATH="$PATH:/root/.dotnet/tools"
+      - run:
+          name: Update
+          command: dotnet tool update -g Amazon.Lambda.Tools
+      - run:
+          name: Install Zip
+          command: |            
+            apt-get update
+            apt-get -y install zip
+            apt-get -y install unzip
+      - run:
+          name: Publish
+          command: |
+            cd AWSServerlessApplication
+            ~/.dotnet/tools/dotnet-lambda deploy-serverless pwd --disable-interactive true --region us-east-2 --profile default --msbuild-parameters "--no-restore"
 workflows:
-  Deployment:
+  Socotra-Configuration-Deployment:
     jobs:
-      - build-and-deploy
+      - aws-cli-example
+      - dotnet-docker:
+          requires:
+            - aws-cli-example
+          
