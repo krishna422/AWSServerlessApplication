@@ -1,15 +1,16 @@
 version: 2.1
+orbs:
+  aws-cli: circleci/aws-cli@2.0.3
 jobs:
   build-and-deploy:
     docker:
-      - image: amazon/aws-cli:latest
       - image: mcr.microsoft.com/dotnet/sdk:5.0
     working_directory: ~/project/AWSServerlessApplication/AWSServerlessApplication
     steps:
       - checkout
       - run:
           name: AWS CLI check
-          command: aws --version           
+          command: aws-cli --version           
       - run:
           name: dotnet CLI check
           command: dotnet --version
