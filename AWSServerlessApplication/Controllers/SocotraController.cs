@@ -12,11 +12,12 @@ namespace AWSServerlessApplication.Controllers
     {
         const string baseURL = "https://api.sandbox.socotra.com/";
 
-        [HttpGet]
+        [HttpPost]
         [Route("getvalues")]
         public string GetValues()
         {
-            return "{\"fieldValues\":{\"external_value_here\":[\"Hello from aws function app\"]}}";
+            var str = "{\"fieldValues\":{\"external_value_here\":[\"Hellofromawsfunctionapp\"]}}";
+            return str;
         }
     }
 }
