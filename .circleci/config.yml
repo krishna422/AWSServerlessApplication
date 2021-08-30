@@ -1,0 +1,68 @@
+version: 2.1
+
+references:
+  dockerimage: &dockerimage
+    docker:
+      - image: mcr.microsoft.com/dotnet/sdk:5.0
+
+orbs:
+  aws-cli: circleci/aws-cli@2.0.3
+
+workflows:
+  TPI Deployment To DEVQA:
+    jobs:
+      - Deploy To DEVQA:
+          context: SOCOTRA-TPI-DEVQA-SERVERLESS
+          filters:
+            branches:
+              only:
+                - main
+
+jobs:
+  Deploy To DEVQA:
+    <<: *dockerimage
+    environment:
+        ENV: "DEVQA"
+    working_directory: ~/project/socotra-tpi-service/Socotra.TPI.CoreAPI/
+    docker:
+      - image: mcr.microsoft.com/dotnet/sdk:5.0
+    steps:
+      - checkout
+      - run:
+          name: Install Supporting Tools
+          command: |
+            apt-get update
+            apt-get -y install zip
+            apt-get -y install unzip
+      - aws-cli/setup:
+          profile-name: default
+      - run:
+          name: Set AWS Credentials
+          command: |
+            aws configure set region ${DEPLOYREGION}      
+            aws configure set aws_access_key_id ${ACCESSKEYID}     
+            aws configure set aws_secret_access_key ${SECRETKEY}
+      - run:
+          name: Install Dependencies
+          command: |
+            dotnet clean
+            dotnet restore -nowarn:msb3202,nu1503 -p:RestoreUseSkipNonexistentTargets=false
+      - run:
+          name: Install dotnet tools
+          command: dotnet tool install --global dotnet-ef
+      - run:
+          name: Install Amazon Lambda Templates
+          command: dotnet new -i Amazon.Lambda.Templates::*
+      - run:
+          name: Install Lambda Tools
+          command: |
+            dotnet new tool-manifest
+            dotnet tool install --global Amazon.Lambda.Tools
+      - run:
+          name: Set PATH for dotnet tools
+          command: export PATH="$PATH:/root/.dotnet/tools"   
+      - run:
+          name: Publish to AWS
+          command: |
+            cd AWSServerlessApplication
+            ~/.dotnet/tools/dotnet-lambda deploy-serverless SocotraTPIService --disable-interactive true --region us-east-2 --profile default --msbuild-parameters "--no-restore"
