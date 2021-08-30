@@ -65,4 +65,4 @@ jobs:
           name: Publish to AWS
           command: |
             cd Socotra.TPI.CoreAPI
-            ~/.dotnet/tools/dotnet-lambda deploy-serverless SocotraTPIService --disable-interactive true --region us-east-2 --profile default --msbuild-parameters "--no-restore"
+            ~/.dotnet/tools/dotnet-lambda deploy-serverless SocotraTPIService --disable-interactive true --region us-east-2 --s3-bucket socotra-tpi-service --profile default --msbuild-parameters "--no-restore"
