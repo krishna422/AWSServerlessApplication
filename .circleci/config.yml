@@ -23,7 +23,7 @@ jobs:
     <<: *dockerimage
     environment:
         ENV: "DEVQA"
-    working_directory: ~/project/AWSServerlessSocotra/AWSServerlessSocotra/
+    working_directory: ~/project/AWSServerlessApplication/Socotra.TPI.CoreAPI/
     docker:
       - image: mcr.microsoft.com/dotnet/sdk:5.0
     steps:
@@ -64,5 +64,5 @@ jobs:
       - run:
           name: Publish to AWS
           command: |
-            cd AWSServerlessApplication
+            cd Socotra.TPI.CoreAPI
             ~/.dotnet/tools/dotnet-lambda deploy-serverless SocotraTPIService --disable-interactive true --region us-east-2 --profile default --msbuild-parameters "--no-restore"
