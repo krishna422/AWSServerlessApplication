@@ -40,7 +40,10 @@ jobs:
             dotnet tool install --global Amazon.Lambda.Tools
       - run:
           name: Set PATH for dotnet tools
-          command: export PATH="$PATH:/root/.dotnet/tools"   
+          command: export PATH="$PATH:/root/.dotnet/tools"
+      - run:
+          name: Check Info
+          command: dotnet --info
       - run:
           name: Publish to AWS
           command: |
