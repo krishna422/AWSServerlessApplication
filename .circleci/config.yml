@@ -45,9 +45,7 @@ jobs:
       - run:
           name: Install Dependencies
           command: |
-            dotnet clean
             dotnet restore
-            dotnet build
       - run:
           name: Install dotnet tools
           command: dotnet tool install --global dotnet-ef
