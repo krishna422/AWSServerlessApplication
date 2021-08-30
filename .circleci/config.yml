@@ -1,29 +1,9 @@
 version: 2.1
-
-references:
-  dockerimage: &dockerimage
-    docker:
-      - image: mcr.microsoft.com/dotnet/sdk:5.0
-
 orbs:
   aws-cli: circleci/aws-cli@2.0.3
-
-workflows:
-  TPI Deployment To DEVQA:
-    jobs:
-      - Deploy To DEVQA:
-          context: SOCOTRA-TPI-DEVQA-SERVERLESS
-          filters:
-            branches:
-              only:
-                - main
-
 jobs:
-  Deploy To DEVQA:
-    <<: *dockerimage
-    environment:
-        ENV: "DEVQA"
-    working_directory: ~/project/socotra-tpi-service/Socotra.TPI.CoreAPI/
+  dotnet-deploy:
+    working_directory: ~/project/AWSServerlessApplication/AWSServerlessApplication
     docker:
       - image: mcr.microsoft.com/dotnet/sdk:5.0
     steps:
@@ -65,4 +45,9 @@ jobs:
           name: Publish to AWS
           command: |
             cd AWSServerlessApplication
-            ~/.dotnet/tools/dotnet-lambda deploy-serverless SocotraTPIService --disable-interactive true --region us-east-2 --profile default --msbuild-parameters "--no-restore"
+            ~/.dotnet/tools/dotnet-lambda deploy-serverless ServerlessApplication --disable-interactive true --region us-east-2 --profile default --msbuild-parameters "--no-restore"
+workflows:
+  Socotra-Configuration-Deployment:
+    jobs:
+      - dotnet-deploy:
+          context: AWS-SERVERLESS
